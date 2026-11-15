@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Вправа: визнач свій архетип (пілот)</title>
 <style>
-:root{--bg:#FDF9F4;--card:#fff;--ink:#3b302b;--mut:#7a6a62;--acc:#BB764F;--soft:#F3E2D4;--ok:#ABA26A;--err:#a8412f}
-@media (prefers-color-scheme:dark){:root{--bg:#1f1a17;--card:#2a2320;--ink:#f1e8e0;--mut:#b5a69c;--soft:#3a2f29}}
+:root{--bg:#FDF9F4;--card:#fff;--ink:#4A3B35;--mut:#6F5E56;--acc:#9C4F2B;--soft:#F3E2D4;--ok:#ABA26A;--err:#a8412f}
+@media (prefers-color-scheme:dark){:root{--bg:#1f1a17;--card:#2a2320;--ink:#f1e8e0;--mut:#b5a69c;--soft:#3a2f29;--acc:#D9946D}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,sans-serif}
 main{max-width:640px;margin:0 auto;padding:20px 16px 60px}
 h1{font-size:1.4rem;margin:.2em 0 .6em}.card{background:var(--card);border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 1px 4px #0001}
@@ -20,6 +20,54 @@ button.sec{background:var(--soft);color:var(--ink)}button:disabled{opacity:.5}
 .row{display:flex;gap:8px;justify-content:space-between;margin-top:14px;flex-wrap:wrap}
 .err{color:var(--err);margin-top:8px}.chk{display:flex;gap:10px;align-items:flex-start;margin:10px 0}.chk input{margin-top:6px;width:20px;height:20px}
 .hidden{display:none}
+
+/* ===== v2: екран результатів ===== */
+:root{--acc-d:#9C4F2B;--acc-d2:#7E3F22;--line:#4A3B3533;--track:#EBD9C9;--olive:#6F6830;--warn-bg:#FBF1DC;--warn-ink:#5A4A43}
+@media (prefers-color-scheme:dark){:root{--acc-d:#E3A07A;--acc-d2:#F0B896;--line:#f1e8e033;--track:#4a3d35;--olive:#CFC684;--warn-bg:#3a3224;--warn-ink:#f1e8e0}}
+.res h1{font-size:1.5rem;line-height:1.25;margin:.1em 0 .3em}
+.res .lead{font-size:.95rem;color:var(--mut);margin:0 0 4px;line-height:1.45}
+.res .card{padding:18px 16px}
+.res h2{font-size:1.15rem;margin:0 0 4px}.res h3{font-size:1.05rem;margin:22px 0 10px}
+.sec-sub{font-size:.9rem;color:var(--mut);margin:0 0 12px}
+.ic{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--acc-d);font-weight:700;font-size:.85rem;flex:none;border:1.5px solid var(--acc-d)}
+.ic.lg{width:36px;height:36px;font-size:1rem}
+.prow{padding:12px 0;border-top:1px solid var(--line)}.prow:first-of-type{border-top:0;padding-top:4px}
+.phead{display:flex;align-items:center;gap:10px}
+.pname{font-weight:700;flex:1;min-width:0}
+.pval{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
+.chip{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 8px;border-radius:999px;border:1.5px solid var(--acc-d);color:var(--acc-d);white-space:nowrap}
+.chip.hi{background:var(--acc-d);color:#fff}.chip.mid{background:transparent}.chip.lo{border-style:dashed;border-color:var(--mut);color:var(--mut)}
+@media (prefers-color-scheme:dark){.chip.hi{color:#1f1a17}}
+.meter{position:relative;height:10px;background:var(--track);border-radius:6px;margin:10px 0 2px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--acc-d);border-radius:6px}
+.meter.lo i{background:repeating-linear-gradient(45deg,var(--mut) 0 4px,transparent 4px 8px)}
+.meter b{position:absolute;top:0;bottom:0;width:2px;background:var(--bg);opacity:.9}
+.legend{display:flex;justify-content:space-between;font-size:.75rem;color:var(--mut);margin-top:2px}
+.loud{border:1.5px solid var(--acc-d);border-radius:14px;padding:14px;margin:10px 0;background:var(--bg)}
+.loud .lh{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:1.05rem}
+.fact{margin:10px 0 0;padding-left:12px;border-left:4px solid var(--line)}
+.fact.a{border-left-color:var(--line)}.fact.s{border-left-color:var(--olive)}.fact.r{border-left-color:var(--acc-d)}.fact.q{border-left-color:var(--mut)}
+.fact .k{display:block;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
+.fact p{margin:0;font-size:.97rem;line-height:1.5}
+.quiet{display:flex;gap:10px;align-items:flex-start;background:var(--soft);border-radius:12px;padding:12px;margin-top:16px;font-size:.93rem}
+.notice{background:var(--warn-bg);color:var(--warn-ink);border-left:4px solid var(--acc-d);border-radius:10px;padding:12px;font-size:.93rem;margin:14px 0}
+.code{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--soft);border-radius:14px;padding:14px;margin:6px 0 12px;text-align:center}
+.code .cl{font-size:.8rem;color:var(--mut)}.code .cv{font-size:1.7rem;font-weight:800;letter-spacing:.12em;font-variant-numeric:tabular-nums;color:var(--ink);user-select:all}
+.crisis{border:2px solid var(--acc-d);border-radius:14px;padding:14px;margin:14px 0 0;background:var(--card)}
+.crisis h3{margin:0 0 6px;font-size:1rem}
+.crisis p{margin:0 0 10px;font-size:.93rem}
+.crisis ul{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
+.crisis li a{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;padding:8px 12px;border-radius:10px;background:var(--soft);color:var(--ink);text-decoration:none;font-weight:600}
+.crisis li a span.n{font-size:1.15rem;font-weight:800;color:var(--acc-d);white-space:nowrap}
+.crisis li a small{font-weight:400;color:var(--mut);display:block;font-size:.8rem}
+.crisis .fine{font-size:.82rem;color:var(--mut);margin:0}
+.res button{background:var(--acc-d);min-height:48px;font-weight:600}
+.res button:disabled{opacity:.6}
+.res button:focus-visible,.res select:focus-visible,.res a:focus-visible{outline:3px solid var(--acc-d2);outline-offset:2px}
+.res select{min-height:48px;border:1.5px solid var(--mut)}
+.res #interest .row button{width:100%}
+.res .err{font-weight:600}
+.bigbtn{width:100%}
 </style>
 </head>
 <body><main>
@@ -128,6 +176,7 @@ const DESC={"Артеміда":"Вам близькі самостійність
 "Арес":"Ви сильні в дії й готові захищати своє; енергія і пристрасть ресурс. Куди може занести: у поспіх і різкість. Питання: куди спрямувати енергію, щоб вона будувала.",
 "Гефест":"Ви сильні в майстерності й зосередженій праці; справа вас тримає. Куди може занести: в ізольованість у роботі. Питання: як бути поруч із людьми поза справою.",
 "Діоніс":"Вас живлять чуттєвість, свято, природа; ви вмієте віддаватися моменту. Куди може занести: у втрату опори, коли настрій гойдає. Питання: що допомагає вам лишатися на твердому ґрунті."};
+const DESC2={"Артеміда": {"a": "У міфі це мисливиця й покровителька дикої природи: вона нікому не підпорядковується і дбає про свою незалежність.", "l": "Може проявлятися як чіткі власні цілі, потреба в особистому просторі, вміння відстояти свою думку й вірність небагатьом близьким подругам."}, "Афіна": {"a": "У міфі це богиня мудрості й стратегії: спершу думка і план, потім дія; поруч із нею завжди ремесло й практичний результат.", "l": "Може проявлятися як вміння розкласти складне на кроки, спокійна голова в кризі, повага до компетентності й любов до практичних рішень."}, "Гестія": {"a": "У міфі це богиня домашнього вогнища: тиха, зосереджена, вона дає відчуття центру й безпеки без гучних слів.", "l": "Може проявлятися як любов до затишку й ритуалів, вміння просто побути поруч без порад, внутрішній спокій і відсутність потреби бути в центрі уваги."}, "Гера": {"a": "У міфі це богиня шлюбу й відданості: образ того, хто цінує зобов'язання і довготривалий зв'язок.", "l": "Може проявлятися як бажання спільного майбутнього, вірність слову, велике значення ролі в парі та гостра реакція, коли довіру порушено."}, "Деметра": {"a": "У міфі це богиня родючості й материнства: образ піклування, годування й підтримки росту інших.", "l": "Може проявлятися як здатність помічати, хто втомився чи засмутився, радість від того, що комусь стало легше, і труднощі з відмовою, коли просять про допомогу."}, "Персефона": {"a": "У міфі це дівчина весни, що належить і світу квітів, і підземному царству: образ відкритості до змін і подвійності.", "l": "Може проявлятися як гнучкість, багата уява, схильність відгукуватися на очікування оточення та періоди пошуку відповіді на питання «хто я»."}, "Афродіта": {"a": "У міфі це богиня краси й кохання: творча, чуттєва сила, яка притягує й поєднує людей.", "l": "Може проявлятися як захоплення людьми, ідеями й красою, вміння створювати тепло довкола та відчуття, що енергію дають стосунки й творчість."}, "Зевс": {"a": "У міфі це цар богів: образ влади, порядку й відповідальності за цілісність спільноти.", "l": "Може проявлятися як схильність брати керування на себе, тримати структуру й правила, відчувати відповідальність за своїх і напружуватися, коли порядок порушують."}, "Посейдон": {"a": "У міфі це володар морів: образ глибоких, сильних і мінливих почуттів.", "l": "Може проявлятися як багата палітра емоцій, довіра до відчуттів у тілі й інтуїції; почуття приходять хвилями, які і надихають, і виснажують."}, "Гадес": {"a": "У міфі це володар підземного царства: образ внутрішнього світу, прихованого й глибокого.", "l": "Може проявлятися як любов до тиші й самотності, уважність до деталей, небагатослівність і багате внутрішнє життя, відкрите вузькому колу людей."}, "Аполлон": {"a": "У міфі це бог світла, музики й порядку: образ ясності, мети й форми.", "l": "Може проявлятися як любов до чітких цілей, вміння просто пояснити складне, увага до якості й цінування розуму та самовладання."}, "Гермес": {"a": "У міфі це вісник богів: образ швидкості, зв'язку й винахідливості.", "l": "Може проявлятися як швидка орієнтація, вміння знайомити людей, легкий перехід між темами, жвава цікавість і складність довго займатися однією справою."}, "Арес": {"a": "У міфі це бог війни: образ енергії, захисту й пристрасті в дії.", "l": "Може проявлятися як хвилі сили, азарт змагання, готовність захищати своє й потреба в русі та виклику."}, "Гефест": {"a": "У міфі це бог-коваль: образ майстра, що створює руками й працею.", "l": "Може проявлятися як задоволення від справи й майстерні, зосередженість, увага до якості та більша затишність поруч з інструментом, ніж у світській розмові."}, "Діоніс": {"a": "У міфі це бог вина, свята й природи: образ чуттєвості, радості й розчинення в моменті.", "l": "Може проявлятися як вміння насолоджуватися, відчуття свободи, близькість до природи й тіла та настрій, що буває хиткий."}};
 const ICON={"Артеміда":"🏹","Афіна":"🦉","Гестія":"🔥","Гера":"👑","Деметра":"🌾","Персефона":"🌱","Афродіта":"🌹","Зевс":"⚡","Посейдон":"🌊","Гадес":"🌑","Аполлон":"☀️","Гермес":"✉️","Арес":"⚔️","Гефест":"🔨","Діоніс":"🍇"};
 function parseDesc(n){const d=DESC[n]||"";const [a,rest=""]=d.split(" Куди може занести: ");const [risk,q=""]=rest.split(" Питання: ");return {s:a.trim(),r:risk.trim(),q:q.trim()}}
 function score(){
@@ -142,7 +191,8 @@ function score(){
 }
 function renderDone(){
   const R=score(),ok=R.sc.filter(s=>s.mean!==null);
-  const lvl=m=>m<2.5?"тихіше зараз":m<3.5?"помірно":"гучніше зараз";
+  const lvl=m=>m<2.5?["lo","тихіше зараз"]:m<3.5?["mid","помірно"]:["hi","гучніше зараз"];
+  const ini=n=>`<span class="ic" aria-hidden="true">${esc((n||"?").charAt(0))}</span>`;
   let body="",note="";
   if(R.missing>=3){body=`<p>Забагато пропусків, щоб показати профіль. Можна пройти ще раз пізніше.</p>`}
   else if(R.same>=R.thr||R.extreme>=0.8){body=`<p>Схоже, відповіді майже однакові. Профіль не показую: спробуйте ще раз, читаючи кожне твердження.</p>`}
@@ -153,31 +203,33 @@ function renderDone(){
     if(R.avg>=4.0) note+=" Схоже, ви погоджуєтеся майже з усім, тому різницю між образами видно слабко.";
     if(R.avg<=2.0) note+=" Схоже, ви не погоджуєтеся майже з усім, тому різницю між образами видно слабко.";
     const sorted=[...ok].sort((a,b)=>b.mean-a.mean);
-    const bars=sorted.map(s=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><b>${ICON[s.name]||""} ${esc(s.name)}</b><span class="mut">${s.mean.toFixed(1)} · ${lvl(s.mean)}</span></div><div class="bar"><i style="width:${((s.mean-1)/4*100).toFixed(0)}%"></i></div></div>`).join("");
+    const bars=sorted.map(s=>{const [c,t]=lvl(s.mean);return `<div class="prow"><div class="phead">${ini(s.name)}<span class="pname">${esc(s.name)}</span><span class="pval">${s.mean.toFixed(1)}<span class="mut"> з 5</span></span></div><div class="meter ${c}" role="img" aria-label="${esc(s.name)}: ${s.mean.toFixed(1)} з 5, ${t}"><i style="width:${((s.mean-1)/4*100).toFixed(0)}%"></i><b style="left:37.5%"></b><b style="left:62.5%"></b></div><span class="chip ${c}">${t}</span></div>`}).join("");
     let top="";
     if(!warn){
       const loud=sorted.filter(s=>s.mean>=3.5).slice(0,3);
-      top=loud.length?`<h3>Найгучніші зараз</h3>`+loud.map(s=>{const d=parseDesc(s.name);return `<div class="help"><b>${ICON[s.name]||""} ${esc(s.name)}</b><br>💪 <b>Сильна сторона:</b> ${esc(d.s)}<br>⚠️ <b>Куди може занести:</b> ${esc(d.r)}${d.q?`<br>💭 <b>Питання для роздуму:</b> ${esc(d.q)}`:""}</div>`}).join(""):`<p>Виразних піків немає, відповіді рівномірні.</p>`;
+      top=loud.length?`<h3>Найгучніші зараз</h3>`+loud.map(s=>{const d=parseDesc(s.name);return `<article class="loud"><div class="lh">${ini(s.name).replace('class="ic"','class="ic lg"')}<b>${esc(s.name)}</b></div>${DESC2[s.name]?`<div class="fact a"><span class="k">Про образ</span><p>${esc(DESC2[s.name].a)}</p></div><div class="fact a"><span class="k">Як це може проявлятися</span><p>${esc(DESC2[s.name].l)}</p></div>`:""}<div class="fact s"><span class="k">Сильна сторона</span><p>${esc(d.s)}</p></div><div class="fact r"><span class="k">Куди може занести</span><p>${esc(d.r)}</p></div>${d.q?`<div class="fact q"><span class="k">Питання для роздуму</span><p>${esc(d.q)}</p></div>`:""}</article>`}).join(""):`<p>Виразних піків немає, відповіді рівномірні.</p>`;
     }
     const quiet=sorted.filter(s=>s.mean<2.5).slice(-1)[0];
-    const qn=(!warn&&quiet)?`<p class="mut">${ICON[quiet.name]||""} ${esc(quiet.name)}: зараз тихіший образ. Це не слабкість, а просто те, що зараз менш гучно.</p>`:"";
-    body=`<p class="mut">Це знімок на сьогодні, а не тип і не діагноз. Це порівняння образів між собою для вас, а не з іншими людьми.</p>${bars}${note?`<div class="help">${esc(note.trim())}</div>`:""}${top}${qn}`;
+    const qn=(!warn&&quiet)?`<div class="quiet">${ini(quiet.name)}<div><b>${esc(quiet.name)}</b>: зараз тихіший образ. Це не слабкість, а просто те, що зараз менш гучно.</div></div>`:"";
+    body=`<h2>Ваші образи</h2><p class="sec-sub">Від найгучнішого до найтихішого. Шкала 1 до 5; світлі риски на шкалі: 2,5 і 3,5.</p>${bars}<div class="legend" aria-hidden="true"><span>1 тихо</span><span>5 гучно</span></div>${note?`<div class="notice" role="note">${esc(note.trim())}</div>`:""}${top}${qn}`;
   }
-  $.innerHTML=`<h1>Дякуємо! Ваш профіль</h1><div class="card">${body}</div>
-  <div class="card"><p>Відповіді надіслано. Збережіть свій код: <b>${esc(S.code)}</b>. Через 2 тижні буде дуже допомагати повторне проходження з тим самим кодом.</p>
-  <div class="help">${esc(HELP)}</div></div>`;
+  $.innerHTML=`<div class="res"><h1>Дякуємо! Ваш профіль</h1><p class="lead">Це знімок на сьогодні, а не тип і не діагноз. Це порівняння образів між собою для вас, а не з іншими людьми.</p>
+  <div class="card">${body}</div>
+  <div class="card"><div class="code"><span class="cl">Ваш код (збережіть його)</span><span class="cv">${esc(S.code)}</span></div><p style="margin:0">Відповіді надіслано. Через 2 тижні буде дуже допомагати повторне проходження з тим самим кодом.</p>
+  <div class="crisis" role="region" aria-label="Якщо вам важко"><h3>Якщо вам зараз дуже важко</h3><p>${esc(HELP)}</p>
+  <ul><li><a href="tel:112"><span>Екстрена допомога</span><span class="n">112</span></a></li><li><a href="tel:7333"><span>Lifeline Ukraine</span><span class="n">7333</span></a></li><li><a href="tel:0800211444"><span>Лінія МОМ</span><span class="n">0 800 211 444</span></a></li></ul></div></div></div>`;
   $.insertAdjacentHTML("beforeend", interestHTML());
   const ib=document.getElementById("isend"); if(ib) ib.onclick=submitInterest;
   window.scrollTo(0,0);
 }
 const SPHERES=["Стосунки","Стиль роботи і середовище","Ресурс і стрес","Рішення і гроші","Творчість і відпочинок"];
 function interestHTML(){
-  return `<div class="card" id="interest"><h3 style="margin-top:0">Розгорнуті звіти по сферах життя: скоро</h3>
-  <p>Ми думаємо зробити окремі розгорнуті звіти по сферах життя. Поки їх нема. Допоможіть зрозуміти, що вам цікавіше. Це не замовлення, нічого не коштує і ні до чого не зобов'язує.</p>
+  return `<div class="res"><div class="card" id="interest"><h2>Розгорнуті звіти по сферах життя: скоро</h2>
+  <p class="sec-sub" style="font-size:.95rem">Ми думаємо зробити окремі розгорнуті звіти по сферах життя. Поки їх нема. Допоможіть зрозуміти, що вам цікавіше. Це не замовлення, нічого не коштує і ні до чого не зобов'язує.</p>
   <label for="isph">Яка сфера вам цікавіша?</label>
   <select id="isph"><option value="">— оберіть —</option>${SPHERES.map(x=>`<option>${esc(x)}</option>`).join("")}<option>Жодна</option></select>
   <div class="err" id="ierr"></div>
-  <div class="row"><button id="isend">Надіслати</button></div></div>`;
+  <div class="row"><button id="isend">Надіслати</button></div></div></div>`;
 }
 async function submitInterest(){
   const sph=document.getElementById("isph").value, e=document.getElementById("ierr");
