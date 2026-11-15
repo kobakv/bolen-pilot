@@ -2,11 +2,11 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Вправа: визнач свій архетип (пілот)</title>
 <style>
-:root{--bg:#FDF9F4;--card:#fff;--ink:#4A3B35;--mut:#6F5E56;--acc:#9C4F2B;--soft:#F3E2D4;--ok:#ABA26A;--err:#a8412f}
-@media (prefers-color-scheme:dark){:root{--bg:#1f1a17;--card:#2a2320;--ink:#f1e8e0;--mut:#b5a69c;--soft:#3a2f29;--acc:#D9946D}}
+:root{color-scheme:light;--bg:#FDF9F4;--card:#fff;--ink:#4A3B35;--mut:#6F5E56;--acc:#9C4F2B;--soft:#F3E2D4;--ok:#ABA26A;--err:#a8412f}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,sans-serif}
 main{max-width:640px;margin:0 auto;padding:20px 16px 60px}
 h1{font-size:1.4rem;margin:.2em 0 .6em}.card{background:var(--card);border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 1px 4px #0001}
@@ -23,7 +23,6 @@ button.sec{background:var(--soft);color:var(--ink)}button:disabled{opacity:.5}
 
 /* ===== v2: екран результатів ===== */
 :root{--acc-d:#9C4F2B;--acc-d2:#7E3F22;--line:#4A3B3533;--track:#EBD9C9;--olive:#6F6830;--warn-bg:#FBF1DC;--warn-ink:#5A4A43}
-@media (prefers-color-scheme:dark){:root{--acc-d:#E3A07A;--acc-d2:#F0B896;--line:#f1e8e033;--track:#4a3d35;--olive:#CFC684;--warn-bg:#3a3224;--warn-ink:#f1e8e0}}
 .res h1{font-size:1.5rem;line-height:1.25;margin:.1em 0 .3em}
 .res .lead{font-size:.95rem;color:var(--mut);margin:0 0 4px;line-height:1.45}
 .res .card{padding:18px 16px}
@@ -37,7 +36,6 @@ button.sec{background:var(--soft);color:var(--ink)}button:disabled{opacity:.5}
 .pval{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
 .chip{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 8px;border-radius:999px;border:1.5px solid var(--acc-d);color:var(--acc-d);white-space:nowrap}
 .chip.hi{background:var(--acc-d);color:#fff}.chip.mid{background:transparent}.chip.lo{border-style:dashed;border-color:var(--mut);color:var(--mut)}
-@media (prefers-color-scheme:dark){.chip.hi{color:#1f1a17}}
 .meter{position:relative;height:10px;background:var(--track);border-radius:6px;margin:10px 0 2px;overflow:hidden}
 .meter i{display:block;height:100%;background:var(--acc-d);border-radius:6px}
 .meter.lo i{background:repeating-linear-gradient(45deg,var(--mut) 0 4px,transparent 4px 8px)}
