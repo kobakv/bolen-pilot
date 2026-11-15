@@ -128,6 +128,8 @@ const DESC={"Артеміда":"Вам близькі самостійність
 "Арес":"Ви сильні в дії й готові захищати своє; енергія і пристрасть ресурс. Куди може занести: у поспіх і різкість. Питання: куди спрямувати енергію, щоб вона будувала.",
 "Гефест":"Ви сильні в майстерності й зосередженій праці; справа вас тримає. Куди може занести: в ізольованість у роботі. Питання: як бути поруч із людьми поза справою.",
 "Діоніс":"Вас живлять чуттєвість, свято, природа; ви вмієте віддаватися моменту. Куди може занести: у втрату опори, коли настрій гойдає. Питання: що допомагає вам лишатися на твердому ґрунті."};
+const ICON={"Артеміда":"🏹","Афіна":"🦉","Гестія":"🔥","Гера":"👑","Деметра":"🌾","Персефона":"🌱","Афродіта":"🌹","Зевс":"⚡","Посейдон":"🌊","Гадес":"🌑","Аполлон":"☀️","Гермес":"✉️","Арес":"⚔️","Гефест":"🔨","Діоніс":"🍇"};
+function parseDesc(n){const d=DESC[n]||"";const [a,rest=""]=d.split(" Куди може занести: ");const [risk,q=""]=rest.split(" Питання: ");return {s:a.trim(),r:risk.trim(),q:q.trim()}}
 function score(){
   const v=S.version,n=ITEMS[v].length,vals=[];let raw=[];
   for(let k=1;k<=n;k++){const a=S.ans[k];if(a>=1&&a<=5){raw.push(a);vals[k]=REV[v].includes(k)?6-a:a}}
@@ -151,13 +153,15 @@ function renderDone(){
     if(R.avg>=4.0) note+=" Схоже, ви погоджуєтеся майже з усім, тому різницю між образами видно слабко.";
     if(R.avg<=2.0) note+=" Схоже, ви не погоджуєтеся майже з усім, тому різницю між образами видно слабко.";
     const sorted=[...ok].sort((a,b)=>b.mean-a.mean);
-    const bars=sorted.map(s=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><b>${esc(s.name)}</b><span class="mut">${s.mean.toFixed(1)} · ${lvl(s.mean)}</span></div><div class="bar"><i style="width:${((s.mean-1)/4*100).toFixed(0)}%"></i></div></div>`).join("");
+    const bars=sorted.map(s=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><b>${ICON[s.name]||""} ${esc(s.name)}</b><span class="mut">${s.mean.toFixed(1)} · ${lvl(s.mean)}</span></div><div class="bar"><i style="width:${((s.mean-1)/4*100).toFixed(0)}%"></i></div></div>`).join("");
     let top="";
     if(!warn){
       const loud=sorted.filter(s=>s.mean>=3.5).slice(0,3);
-      top=loud.length?`<h3>Найгучніші зараз</h3>`+loud.map(s=>`<div class="help"><b>${esc(s.name)}.</b> ${esc(DESC[s.name])}</div>`).join(""):`<p>Виразних піків немає, відповіді рівномірні.</p>`;
+      top=loud.length?`<h3>Найгучніші зараз</h3>`+loud.map(s=>{const d=parseDesc(s.name);return `<div class="help"><b>${ICON[s.name]||""} ${esc(s.name)}</b><br>💪 <b>Сильна сторона:</b> ${esc(d.s)}<br>⚠️ <b>Куди може занести:</b> ${esc(d.r)}${d.q?`<br>💭 <b>Питання для роздуму:</b> ${esc(d.q)}`:""}</div>`}).join(""):`<p>Виразних піків немає, відповіді рівномірні.</p>`;
     }
-    body=`<p class="mut">Це знімок на сьогодні, а не тип і не діагноз. Це порівняння образів між собою для вас, а не з іншими людьми.</p>${bars}${note?`<div class="help">${esc(note.trim())}</div>`:""}${top}`;
+    const quiet=sorted.filter(s=>s.mean<2.5).slice(-1)[0];
+    const qn=(!warn&&quiet)?`<p class="mut">${ICON[quiet.name]||""} ${esc(quiet.name)}: зараз тихіший образ. Це не слабкість, а просто те, що зараз менш гучно.</p>`:"";
+    body=`<p class="mut">Це знімок на сьогодні, а не тип і не діагноз. Це порівняння образів між собою для вас, а не з іншими людьми.</p>${bars}${note?`<div class="help">${esc(note.trim())}</div>`:""}${top}${qn}`;
   }
   $.innerHTML=`<h1>Дякуємо! Ваш профіль</h1><div class="card">${body}</div>
   <div class="card"><p>Відповіді надіслано. Збережіть свій код: <b>${esc(S.code)}</b>. Через 2 тижні буде дуже допомагати повторне проходження з тим самим кодом.</p>
