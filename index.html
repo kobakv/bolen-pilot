@@ -166,7 +166,29 @@ function renderDone(){
   $.innerHTML=`<h1>Дякуємо! Ваш профіль</h1><div class="card">${body}</div>
   <div class="card"><p>Відповіді надіслано. Збережіть свій код: <b>${esc(S.code)}</b>. Через 2 тижні буде дуже допомагати повторне проходження з тим самим кодом.</p>
   <div class="help">${esc(HELP)}</div></div>`;
+  $.insertAdjacentHTML("beforeend", interestHTML());
+  const ib=document.getElementById("isend"); if(ib) ib.onclick=submitInterest;
   window.scrollTo(0,0);
+}
+const SPHERES=["Стосунки","Стиль роботи і середовище","Ресурс і стрес","Рішення і гроші","Творчість і відпочинок"];
+function interestHTML(){
+  return `<div class="card" id="interest"><h3 style="margin-top:0">Розгорнуті звіти по сферах життя: скоро</h3>
+  <p>Ми думаємо зробити окремі розгорнуті звіти по сферах життя. Поки їх нема. Допоможіть зрозуміти, що вам цікавіше. Це не замовлення, нічого не коштує і ні до чого не зобов'язує.</p>
+  <label for="isph">Яка сфера вам цікавіша?</label>
+  <select id="isph"><option value="">— оберіть —</option>${SPHERES.map(x=>`<option>${esc(x)}</option>`).join("")}<option>Жодна</option></select>
+  <div class="err" id="ierr"></div>
+  <div class="row"><button id="isend">Надіслати</button></div></div>`;
+}
+async function submitInterest(){
+  const sph=document.getElementById("isph").value, e=document.getElementById("ierr");
+  if(!sph){e.textContent="Оберіть відповідь.";return}
+  const b=document.getElementById("isend"); b.disabled=true;
+  try{
+    const r=await fetch(SB_URL+"/rest/v1/pilot_interest",{method:"POST",headers:{"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
+      body:JSON.stringify({response_code:S.code,version:S.version,sphere:sph})});
+    if(r.status===201){document.getElementById("interest").innerHTML="<p><b>Дякуємо!</b> Це допоможе зробити звіти корисними.</p>";return}
+    b.disabled=false;e.textContent="Не вдалося надіслати (код "+r.status+"). Спробуйте пізніше.";
+  }catch(x){b.disabled=false;e.textContent="Немає зв'язку. Спробуйте пізніше."}
 }
 render();
 </script></body></html>
